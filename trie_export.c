@@ -14,7 +14,7 @@ void export_bucket(trie *trie, char **bucket, FILE *file) {
         if (bucket[i])
             fputs(bucket[i], file);
     }
-    fprintf(file, "}\"]\n");
+    fprintf(file, "}\"];\n");
 }
 
 void export_node(trie *trie, trie_node *node, FILE *file) {
