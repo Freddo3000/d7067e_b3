@@ -5,4 +5,6 @@ set(CMAKE_C_STANDARD 23)
 
 add_executable(d7067e main.c
         trie.h
-        trie.c)
+        trie.c
+        trie_export.c
+        trie_export.h)
