@@ -9,6 +9,9 @@ int main(void) {
     trie_insert(t, "ooga");
     trie_insert(t, "ooga");
     trie_insert(t, "booga");
+    printf("Result: %s\n", trie_lookup(t, "ooga") ? "true" : "false");
+    printf("Result: %s\n", trie_lookup(t, "oooga") ? "true" : "false");
+    printf("Result: %s\n", trie_lookup(t, "wooga") ? "true" : "false");
 
     FILE* f = fopen("trie.dot", "w");
     export_trie(t, f);

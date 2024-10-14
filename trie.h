@@ -40,6 +40,6 @@ trie* trie_create(unsigned int L);
 void trie_destruct(trie* trie);
 void trie_insert(trie* trie, char* key);
 bool trie_delete(trie* trie, char* key);
-unsigned int trie_lookup(trie* trie, char* key);
+bool trie_lookup(trie* trie, char* key);
 void export_trie(trie* trie, FILE* file);
 #endif //TRIE_H

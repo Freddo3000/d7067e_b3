@@ -28,6 +28,41 @@ trie_node *create_trie_node() {
     return node;
 }
 
+bool search_bucket(trie *trie, trie_node_elem *e, char *key) {
+    char **bucket = e->value.bucket;
+
+    for (int i = 0; i < trie->L; i++) {
+        if (bucket[i] != NULL && strcmp(bucket[i], key) == 0) {
+            return true;  // Found the key
+        }
+    }
+
+    return false;  // Key not found
+}
+
+// Helper function that performs the recursive lookup
+bool trie_lookup_helper(trie *trie, trie_node_elem *elem, char *key) {
+    if (elem == NULL || *key == '\0') {
+        return false;
+    }
+
+    switch (elem->type) {
+        case BUCKET:
+            return search_bucket(trie, &(trie->root)->children[*key], key + 1);
+            break;
+        case TRIE:
+            // Get the next element in the trie and recursively search
+            return trie_lookup_helper(trie, &(trie->root)->children[*key], key + 1);
+    }
+
+    return false;
+}
+
+bool trie_lookup(trie *trie, char *key) {
+    return trie_lookup_helper(trie, &(trie->root)->children[*key], key);
+}
+
+
 void trie_insert(trie *trie, char *key) {
     if (trie->root == nullptr) {
         trie->root = create_trie_node();
