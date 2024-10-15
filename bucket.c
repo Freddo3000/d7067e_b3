@@ -61,6 +61,7 @@ bool bucket_delete(bucket* b, char* key, unsigned int layer) {
             free(b->values[i]);
             b->values[i] = nullptr;
             found = true;
+            break;
         }
     }
     for (++i; i < b->capacity; i++) {
