@@ -12,6 +12,14 @@ int main(void) {
     printf("Result: %s\n", trie_lookup(t, "ooga") ? "true" : "false");
     printf("Result: %s\n", trie_lookup(t, "oooga") ? "true" : "false");
     printf("Result: %s\n", trie_lookup(t, "wooga") ? "true" : "false");
+    printf("Result: %s\n", trie_lookup(t, "world") ? "true" : "false");
+
+    trie_delete(t, "world");
+    printf("Result: %s\n", trie_lookup(t, "world") ? "true" : "false");
+    trie_delete(t, "ooga");
+    printf("Result: %s\n", trie_lookup(t, "ooga") ? "true" : "false");
+    trie_delete(t, "ooga");
+    printf("Result: %s\n", trie_lookup(t, "ooga") ? "true" : "false");
 
     FILE* f = fopen("trie.dot", "w");
     export_trie(t, f);
