@@ -7,7 +7,26 @@
 int main(void) {
     trie* t = trie_create(8);
     trie_insert(t, "hello");
+    trie_insert(t, "hell");
     trie_insert(t, "world");
+    trie_insert(t, "ooga");
+    trie_insert(t, "ooga");
+    trie_insert(t, "oops");
+    trie_insert(t, "ooga");
+    trie_insert(t, "ooga");
+    trie_insert(t, "ooga");
+    trie_insert(t, "ooga");
+    trie_insert(t, "ooga");
+    trie_insert(t, "ooga");
+    trie_insert(t, "ooga");
+    trie_insert(t, "ooga");
+    trie_insert(t, "ooga");
+    trie_insert(t, "ooga");
+    trie_insert(t, "ooga");
+    trie_insert(t, "ooga");
+    trie_insert(t, "ooga");
+    trie_insert(t, "ooga");
+    trie_insert(t, "ooga");
     trie_insert(t, "ooga");
     trie_insert(t, "ooga");
     trie_insert(t, "booga");
@@ -36,9 +55,9 @@ int main(void) {
     res = trie_delete(t, "ooga");
     assert(res==true);
     res = trie_lookup(t, "ooga");
-    assert(res==false);
+    assert(res==true);
     res = trie_delete(t, "ooga");
-    assert(res==false);
+    assert(res==true);
 
     FILE* f = fopen("trie.dot", "w");
     export_trie(t, f);

@@ -9,7 +9,14 @@ add_executable(d7067e main.c
         trie_export.c
         trie_export.h
         bucket.c
+        bucket.h)
+
+add_executable(d7067e_randomstrings
+        trie.h
+        trie.c
+        trie_export.c
+        trie_export.h
+        bucket.c
         bucket.h
-        sortstring.h
-        mkqsort.c
-        )
+        test/randomstrings.c
+)

@@ -15,4 +15,5 @@ void bucket_destroy(bucket* b, bool purge);
 bool bucket_lookup(bucket* bucket, char* key, unsigned int layer);
 bool bucket_insert(bucket* bucket, char* key, unsigned int layer);
 bool bucket_delete(bucket* bucket, char* key, unsigned int layer);
+bool bucket_full(bucket* bucket);
 #endif //BUCKET_H

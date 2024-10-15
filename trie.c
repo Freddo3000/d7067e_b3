@@ -90,6 +90,15 @@ bool trie_delete(trie *trie, char *key) {
     return false;
 }
 
+void burst_bucket(trie* t, bucket* b, trie_node* target, unsigned int depth) {
+    for (int i = 0; i < b->capacity; ++i) {
+        if (b->values[i] == nullptr)
+            break;
+        node_insert(t, target, b->values[i], depth+1);
+    }
+    free(b->values);
+}
+
 void trie_insert(trie *trie, char *key) {
     if (trie->root == nullptr) {
         trie->root = create_trie_node();
@@ -106,16 +115,24 @@ void elem_insert(trie *trie, trie_node_elem *elem, char *key, unsigned int layer
             bucket_init(&elem->value.bucket, trie->L);
             elem->type = BUCKET;
         case BUCKET:
-            bucket_insert(&elem->value.bucket, key, layer);
-            break;
+            if (bucket_full(&elem->value.bucket)) {
+                trie_node* n = create_trie_node();
+                burst_bucket(trie, &elem->value.bucket, n, layer);
+                elem->value.trie = n;
+                elem->type = TRIE;
+            } else {
+                bucket_insert(&elem->value.bucket, key, layer);
+                break;
+            }
         case TRIE:
-            node_insert(trie, trie->root, key, ++layer);
+            node_insert(trie, elem->value.trie, key, ++layer);
     }
 }
 
 void node_insert(trie *trie, trie_node *node, char *key, unsigned int layer) {
-    if (*key == '\0') {
+    if (*(key+layer) == '\0') {
         node->endings++;
+        free(key);
     } else {
         trie_node_elem *e = &node->children[*(key + layer)];
         elem_insert(trie, e, key, layer);

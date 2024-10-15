@@ -70,5 +70,10 @@ bool bucket_delete(bucket* b, char* key, unsigned int layer) {
     if (found)
         b->values[b->capacity-1] = nullptr;
     return found;
+}
 
+bool bucket_full(bucket* b) {
+    if (b->values[b->capacity-1] == nullptr)
+        return false;
+    return true;
 }
