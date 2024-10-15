@@ -9,4 +9,7 @@ add_executable(d7067e main.c
         trie_export.c
         trie_export.h
         bucket.c
-        bucket.h)
+        bucket.h
+        sortstring.h
+        mkqsort.c
+        )
