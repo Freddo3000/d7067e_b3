@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <stdio.h>
 #include "trie.h"
 #include "trie_export.h"
@@ -9,17 +10,34 @@ int main(void) {
     trie_insert(t, "ooga");
     trie_insert(t, "ooga");
     trie_insert(t, "booga");
-    printf("Result: %s\n", trie_lookup(t, "ooga") ? "true" : "false");
-    printf("Result: %s\n", trie_lookup(t, "oooga") ? "true" : "false");
-    printf("Result: %s\n", trie_lookup(t, "wooga") ? "true" : "false");
-    printf("Result: %s\n", trie_lookup(t, "world") ? "true" : "false");
 
-    trie_delete(t, "world");
-    printf("Result: %s\n", trie_lookup(t, "world") ? "true" : "false");
-    trie_delete(t, "ooga");
-    printf("Result: %s\n", trie_lookup(t, "ooga") ? "true" : "false");
-    trie_delete(t, "ooga");
-    printf("Result: %s\n", trie_lookup(t, "ooga") ? "true" : "false");
+    bool res = false;
+
+    // Test lookups
+    res = trie_lookup(t, "hello");
+    assert(res==true);
+    res = trie_lookup(t, "ooga");
+    assert(res==true);
+    res = trie_lookup(t, "bruh");
+    assert(res==false);
+
+    // Test deletion
+    res = trie_delete(t, "world");
+    assert(res==true);
+    res = trie_lookup(t, "world");
+    assert(res==false);
+    res = trie_delete(t, "bruh");
+    assert(res==false);
+    res = trie_delete(t, "ooga");
+    assert(res==true);
+    res = trie_lookup(t, "ooga");
+    assert(res==true);
+    res = trie_delete(t, "ooga");
+    assert(res==true);
+    res = trie_lookup(t, "ooga");
+    assert(res==false);
+    res = trie_delete(t, "ooga");
+    assert(res==false);
 
     FILE* f = fopen("trie.dot", "w");
     export_trie(t, f);

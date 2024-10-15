@@ -18,7 +18,7 @@ typedef enum node_type {
 } node_type;
 
 typedef union trie_node_elem_value {
-    char**  bucket;
+    bucket  bucket;
     trie_node* trie;
 } trie_node_elem_value;
 

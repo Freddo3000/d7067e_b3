@@ -3,16 +3,16 @@
 //
 
 #include "trie_export.h"
-void export_bucket(trie *trie, char **bucket, FILE *file) {
+void export_bucket(trie* trie, bucket* bucket, FILE *file) {
     fprintf(file, "bucket%p [label=\"{", bucket);
     bool is_first = true;
-    for (int i = 0; i < trie->L; ++i) {
+    for (int i = 0; i < bucket->capacity; ++i) {
         if (is_first)
             is_first = false;
         else
             fprintf(file, "|");
-        if (bucket[i])
-            fputs(bucket[i], file);
+        if (bucket->values[i])
+            fputs(bucket->values[i], file);
     }
     fprintf(file, "}\"];\n");
 }
@@ -39,7 +39,7 @@ void export_node(trie *trie, trie_node *node, FILE *file) {
             export_node(trie, node->children[i].value.trie, file);
         } else {
             fprintf(file, "node%p:%c -> bucket%p;\n", node, i, node->children[i].value.trie);
-            export_bucket(trie, node->children[i].value.bucket, file);
+            export_bucket(trie, &node->children[i].value.bucket, file);
         };
     }
 }

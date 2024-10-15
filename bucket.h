@@ -6,12 +6,13 @@
 #define BUCKET_H
 typedef struct {
     char** values;
-    unsigned int size;
+    unsigned int capacity;
 } bucket;
 
-bucket new_bucket();
-void free_bucket(bucket* b);
-bool lookup(bucket bucket, char* key);
-bool insert(bucket bucket, char* key);
-bool delete(bucket bucket, char* key);
+void bucket_init(bucket *b, unsigned int capacity);
+bucket* bucket_create(unsigned int capacity);
+void bucket_destroy(bucket* b, bool purge);
+bool bucket_lookup(bucket* bucket, char* key, unsigned int layer);
+bool bucket_insert(bucket* bucket, char* key, unsigned int layer);
+bool bucket_delete(bucket* bucket, char* key, unsigned int layer);
 #endif //BUCKET_H

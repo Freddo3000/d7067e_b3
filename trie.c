@@ -65,14 +65,9 @@ bool trie_lookup(trie *trie, char *key) {
     if (res.depth == strlen(key))
         return res.found->endings > 0;
 
-    trie_node_elem e = res.found->children[*(key + res.depth)];
-    if (e.type == BUCKET)
-        for (int i = 0; i < trie->L; ++i) {
-            if (!e.value.bucket[i])
-                return false;
-            if (!strcmp(e.value.bucket[i] + res.depth, key + res.depth))
-                return true;
-        }
+    trie_node_elem* e = &res.found->children[*(key + res.depth)];
+    if (e->type == BUCKET)
+        return bucket_lookup(&e->value.bucket, key, res.depth);
 
     return false;
 }
@@ -87,22 +82,9 @@ bool trie_delete(trie *trie, char *key) {
         return false;
     }
 
-    trie_node_elem e = res.found->children[*(key + res.depth)];
-    if (e.type == BUCKET) {
-        int i = 0;
-
-        for (;i < trie->L; ++i) {
-            if (!e.value.bucket[i])
-                return false;
-            if (!strcmp(e.value.bucket[i] + res.depth, key + res.depth))
-                break;
-        }
-        free(e.value.bucket[i]);
-        for (++i; i < trie->L; ++i) {
-            e.value.bucket[i-1] = e.value.bucket[i];
-        }
-        e.value.bucket[trie->L-1] = nullptr;
-        return true;
+    trie_node_elem* e = &res.found->children[*(key + res.depth)];
+    if (e->type == BUCKET) {
+        return bucket_delete(&e->value.bucket, key, res.depth);
     }
 
     return false;
@@ -113,36 +95,18 @@ void trie_insert(trie *trie, char *key) {
         trie->root = create_trie_node();
     }
     unsigned int layer = 0;
-    node_insert(trie, trie->root, key, layer);
-}
-
-void create_bucket(trie_node_elem *e, size_t size) {
-    //todo: set 0 for malloc
-    e->type = BUCKET;
-    e->value.bucket = malloc(size * sizeof(char *));
-    for (int i = 0; i < size; i++) {
-        e->value.bucket[i] = nullptr;
-    }
-}
-
-void bucket_insert(trie_node_elem *e, size_t size, char *key) {
-    char **b = e->value.bucket;
-    for (int i = 0; i < size; i++) {
-        if (b[i] == nullptr) {
-            char *s = malloc(strlen(key) * sizeof(char));
-            strcpy(s, key);
-            b[i] = s;
-            break;
-        }
-    }
+    char* str = malloc(strlen(key) * sizeof(char) + 1);
+    strcpy(str, key);
+    node_insert(trie, trie->root, str, layer);
 }
 
 void elem_insert(trie *trie, trie_node_elem *elem, char *key, unsigned int layer) {
     switch (elem->type) {
         case UNDEF:
-            create_bucket(elem, trie->L);
+            bucket_init(&elem->value.bucket, trie->L);
+            elem->type = BUCKET;
         case BUCKET:
-            bucket_insert(elem, trie->L, key);
+            bucket_insert(&elem->value.bucket, key, layer);
             break;
         case TRIE:
             node_insert(trie, trie->root, key, ++layer);
