@@ -7,4 +7,6 @@ add_executable(d7067e main.c
         trie.h
         trie.c
         trie_export.c
-        trie_export.h)
+        trie_export.h
+        bucket.c
+        bucket.h)

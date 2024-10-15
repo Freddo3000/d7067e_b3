@@ -6,6 +6,7 @@
 #define TRIE_H
 #define ALLOWED_CHARS 128
 #include <stdio.h>
+#include "bucket.h"
 
 typedef struct trie_node_elem trie_node_elem;
 typedef struct trie_node trie_node;
