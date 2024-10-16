@@ -9,7 +9,22 @@ add_executable(d7067e main.c
         trie_export.c
         trie_export.h
         bucket.c
-        bucket.h)
+        bucket.h
+        allsorts/adaptive.c
+        allsorts/benqsort.c
+        allsorts/burstsortA.c
+        allsorts/burstsortL.c
+        allsorts/clock.c
+        allsorts/forward8.c
+        allsorts/forward16.c
+        allsorts/mbmradix.c
+        allsorts/msd.c
+        allsorts/multikey.c
+        allsorts/sortstring.c
+        allsorts/utils.c
+        allsorts/sortstring.h
+)
+target_link_libraries(d7067e m)
 
 add_executable(d7067e_randomstrings
         trie.h

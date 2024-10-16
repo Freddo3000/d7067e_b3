@@ -5,7 +5,8 @@
 #include "allsorts/mkqsort.c"
 
 int main(void) {
-    trie* t = trie_create(8);
+    trie* t = trie_create(100);
+    /*
     trie_insert(t, "hello");
     trie_insert(t, "hell");
     trie_insert(t, "world");
@@ -59,24 +60,29 @@ int main(void) {
     res = trie_delete(t, "ooga");
     assert(res==true);
 
+    */
+    char* l[] = {
+        "wane",
+        "way",
+        "west",
+        "bat",
+        "barn",
+        "bark",
+        "by",
+        "by",
+        "by",
+        "byte",
+        "bytes",
+    };
+    for (int i = 0; i < 11; ++i) {
+        trie_insert(t, l[i]);
+    }
+
     FILE* f = fopen("trie.dot", "w");
     export_trie(t, f);
 
-    unsigned char *l[] = {"bob1", "bob2", "bob1", "bobo"};  // This is an array of char*
+    mkqsort((unsigned char**) l, 11, 0);
 
-    // Optionally, you can explicitly declare a char** and point it to the array of strings
-    unsigned char **ptr = l;
-
-    // Print the values to verify
-    for (int i = 0; i < 4; i++) {
-        printf("%s\n", ptr[i]);
-    }
-    mkqsort(l, 4, 0);
-    // Print the values to verify after sorting
-    for (int i = 0; i < 4; i++) {
-        printf("%s\n", ptr[i]);
-    }
-    // bsearch(); ?????
     return 0;
 }
 
