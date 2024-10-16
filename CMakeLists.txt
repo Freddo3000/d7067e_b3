@@ -19,4 +19,18 @@ add_executable(d7067e_randomstrings
         bucket.c
         bucket.h
         test/randomstrings.c
+        allsorts/adaptive.c
+        allsorts/benqsort.c
+        allsorts/burstsortA.c
+        allsorts/burstsortL.c
+        allsorts/clock.c
+        allsorts/forward8.c
+        allsorts/forward16.c
+        allsorts/mbmradix.c
+        allsorts/mkqsort.c
+        allsorts/msd.c
+        allsorts/multikey.c
+        allsorts/sortstring.c
+        allsorts/utils.c
+        allsorts/sortstring.h
 )

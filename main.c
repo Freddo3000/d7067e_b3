@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "trie.h"
 #include "trie_export.h"
-#include "sortstring.h"
+#include "allsorts/mkqsort.c"
 
 int main(void) {
     trie* t = trie_create(8);
