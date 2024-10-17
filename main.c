@@ -1,5 +1,6 @@
 #include <assert.h>
 #include <stdio.h>
+#include "burstsort.h"
 #include "trie.h"
 #include "trie_export.h"
 #include "allsorts/mkqsort.c"
@@ -75,13 +76,13 @@ int main(void) {
         "bytes",
     };
     for (int i = 0; i < 11; ++i) {
-        trie_insert(t, l[i]);
+        trie_insert(t, l[i], false);
     }
 
     FILE* f = fopen("trie.dot", "w");
     export_trie(t, f);
 
-    mkqsort((unsigned char**) l, 11, 0);
+    burstsort(l, 11, 3, (void (*)(char **, int, int)) mkqsort);
 
     return 0;
 }

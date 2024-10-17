@@ -99,14 +99,16 @@ void burst_bucket(trie* t, bucket* b, trie_node* target, unsigned int depth) {
     free(b->values);
 }
 
-void trie_insert(trie *trie, char *key) {
-    if (trie->root == nullptr) {
+void trie_insert(trie *trie, char *key, bool clone) {
+    if (trie->root == nullptr)
         trie->root = create_trie_node();
-    }
-    unsigned int layer = 0;
-    char* str = malloc(strlen(key) * sizeof(char) + 1);
-    strcpy(str, key);
-    node_insert(trie, trie->root, str, layer);
+
+    char* str;
+    if (clone) {
+        str = malloc(strlen(key) * sizeof(char) + 1);
+        strcpy(str, key);
+    } else str = key;
+    node_insert(trie, trie->root, str, 0);
 }
 
 void elem_insert(trie *trie, trie_node_elem *elem, char *key, unsigned int layer) {
@@ -132,7 +134,7 @@ void elem_insert(trie *trie, trie_node_elem *elem, char *key, unsigned int layer
 void node_insert(trie *trie, trie_node *node, char *key, unsigned int layer) {
     if (*(key+layer) == '\0') {
         node->endings++;
-        free(key);
+        //free(key); // todo: fails when not cloning values to heap...
     } else {
         trie_node_elem *e = &node->children[*(key + layer)];
         elem_insert(trie, e, key, layer);

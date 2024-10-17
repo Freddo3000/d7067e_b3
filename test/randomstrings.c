@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
                 j--;
         }
         str[length] = '\0';
-        trie_insert(t, str);
+        trie_insert(t, str, false);
     }
 
     FILE* f = fopen("bruh.dot", "w");
