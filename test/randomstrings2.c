@@ -14,9 +14,9 @@
 
 int main(int argc, char *argv[])
 {
-    int i,j,k;
+    int i,j;
     int length = 0;
-    int noOfStrings = 1048576;
+    int noOfStrings = 2 << 20;
     int value;
     char str[21];
     char** strings = malloc(noOfStrings * sizeof(char**));
@@ -43,26 +43,27 @@ int main(int argc, char *argv[])
     }
     memcpy(strings_cpy, strings, noOfStrings * sizeof(char*));
 
-
+    printf("ooga booga\n");
     clock_t begin = clock();
-    arssort((unsigned char **) strings_cpy, noOfStrings);
+    mkqsort((unsigned char **) strings_cpy, noOfStrings, 0);
     clock_t end = clock();
-    printf("mkqsort: Start: %ld, End: %ld, Time taken: %ld\n",
-           begin,
-           end,
-           end - begin
-    );
-
-    begin = clock();
-    burstsort(strings_cpy, noOfStrings, 64, (void (*)(char **, int, int)) arssort);
-    end = clock();
-    printf("mkqsort: Start: %ld, End: %ld, Time taken: %ld\n",
-           begin,
-           end,
-           end - begin
+    printf("mkqsort: Start: %f, End: %f, Time taken: %f\n",
+           (double)begin / CLOCKS_PER_SEC,
+           (double)end / CLOCKS_PER_SEC,
+           (double)(end - begin) / CLOCKS_PER_SEC
     );
 
     memcpy(strings_cpy, strings, noOfStrings * sizeof(char*));
+
+    begin = clock();
+    burstsort(strings_cpy, noOfStrings, 64, (void (*)(char **, int, int)) mkqsort);
+    end = clock();
+    printf("burst mkqsort: Start: %f, End: %f, Time taken: %f\n",
+           (double)begin / CLOCKS_PER_SEC,
+           (double)end / CLOCKS_PER_SEC,
+           (double)(end - begin) / CLOCKS_PER_SEC
+    );
+
 
     return 0;
 }

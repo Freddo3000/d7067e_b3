@@ -18,7 +18,7 @@ typedef enum node_type {
 } node_type;
 
 typedef union trie_node_elem_value {
-    bucket  bucket;
+    bucket*  bucket;
     trie_node* trie;
 } trie_node_elem_value;
 
@@ -29,18 +29,15 @@ typedef struct trie_node_elem {
 
 typedef struct trie_node {
     trie_node_elem children[ALLOWED_CHARS];
-    unsigned int endings;
 } trie_node;
 
 typedef struct trie {
-    const unsigned int L;
+    const unsigned int bucket_init;
+    const unsigned int bucket_max;
+    const unsigned int bucket_growth_factor;
     trie_node *root;
 } trie;
 
-trie* trie_create(unsigned int L);
-void trie_destruct(trie* trie);
-void trie_insert(trie* trie, char* key, bool clone);
-bool trie_delete(trie* trie, char* key);
-bool trie_lookup(trie* trie, char* key);
-void export_trie(trie* trie, FILE* file);
+trie* trie_create(unsigned int bucket_max, unsigned int bucket_init, unsigned int bucket_growth_factor);
+void trie_insert(trie* trie, char* key);
 #endif //TRIE_H

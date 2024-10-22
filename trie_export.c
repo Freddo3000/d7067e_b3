@@ -20,7 +20,7 @@ void export_bucket(trie* trie, bucket* bucket, FILE *file, unsigned int layer) {
 }
 
 void export_node(trie *trie, trie_node *node, FILE *file, unsigned int layer) {
-    fprintf(file, "node%p [label=\"{%i|{", node, node->endings);
+    fprintf(file, "node%p [label=\"{", node);
 
     bool is_first = true;
     for (int i = 0; i < ALLOWED_CHARS; ++i) {
@@ -32,7 +32,7 @@ void export_node(trie *trie, trie_node *node, FILE *file, unsigned int layer) {
             fprintf(file, "|");
         fprintf(file, "<%c> %c", i, i);
     }
-    fprintf(file, "}}\"];\n");
+    fprintf(file, "}\"];\n");
     for (int i = 0; i < ALLOWED_CHARS; ++i) {
         if (node->children[i].type == UNDEF)
             continue;
@@ -41,7 +41,7 @@ void export_node(trie *trie, trie_node *node, FILE *file, unsigned int layer) {
             export_node(trie, node->children[i].value.trie, file, layer+1);
         } else {
             fprintf(file, "node%p:%c -> bucket%p;\n", node, i, &node->children[i].value.bucket);
-            export_bucket(trie, &node->children[i].value.bucket, file,layer+1);
+            export_bucket(trie, node->children[i].value.bucket, file,layer+1);
         };
     }
 }
