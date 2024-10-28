@@ -3,10 +3,12 @@
 //
 
 #include "trie_export.h"
+
+#define REP_NULL(i) (i ? i : '_')
 void export_bucket(trie* trie, bucket* bucket, FILE *file, unsigned int layer) {
     fprintf(file, "bucket%p [label=\"{", bucket);
     bool is_first = true;
-    for (int i = 0; i < bucket->capacity; ++i) {
+    for (int i = 0; i < bucket->items; ++i) {
         if (is_first)
             is_first = false;
         else
@@ -30,18 +32,18 @@ void export_node(trie *trie, trie_node *node, FILE *file, unsigned int layer) {
             is_first = false;
         else
             fprintf(file, "|");
-        fprintf(file, "<%c> %c", i, i);
+        fprintf(file, "<%c> %c",REP_NULL(i),REP_NULL(i));
     }
     fprintf(file, "}\"];\n");
     for (int i = 0; i < ALLOWED_CHARS; ++i) {
         if (node->children[i].type == UNDEF)
             continue;
         if (node->children[i].type == TRIE) {
-            fprintf(file, "node%p:%c -> node%p;\n", node, i, node->children[i].value.trie);
+            fprintf(file, "node%p:%c -> node%p;\n", node,REP_NULL(i), node->children[i].value.trie);
             export_node(trie, node->children[i].value.trie, file, layer+1);
         } else {
-            fprintf(file, "node%p:%c -> bucket%p;\n", node, i, &node->children[i].value.bucket);
-            export_bucket(trie, node->children[i].value.bucket, file,layer+1);
+            fprintf(file, "node%p:%c -> bucket%p;\n", node,REP_NULL(i), &node->children[i].value.bucket);
+            export_bucket(trie, &node->children[i].value.bucket, file,layer+1);
         };
     }
 }

@@ -10,7 +10,7 @@ typedef struct {
     unsigned int items;
 } bucket;
 
-bucket *bucket_create(unsigned int capacity);
+void bucket_init(bucket* b, unsigned int capacity);
 
 void bucket_insert(bucket *b, char *key);
 

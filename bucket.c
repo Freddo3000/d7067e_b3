@@ -7,13 +7,10 @@
 #include <assert.h>
 #include <stdlib.h>
 
-bucket* bucket_create(unsigned int capacity) {
-    bucket* b = malloc(sizeof(bucket));
+void bucket_init(bucket* b, unsigned int capacity) {
     b->capacity = capacity;
     b->items = 0;
     b->values = malloc(sizeof(char*) * capacity);
-
-    return b;
 }
 
 unsigned int bucket_items(bucket* b) {
@@ -22,7 +19,6 @@ unsigned int bucket_items(bucket* b) {
 
 void bucket_destroy(bucket* b) {
     free(b->values);
-    free(b);
 }
 
 void bucket_insert(bucket* b, char* key) {

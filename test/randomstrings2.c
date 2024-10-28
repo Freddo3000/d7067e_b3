@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
 {
     int i,j;
     int length = 0;
-    int noOfStrings = 2 << 20;
+    int noOfStrings = 2 << 24;
     int value;
     char str[21];
     char** strings = malloc(noOfStrings * sizeof(char**));

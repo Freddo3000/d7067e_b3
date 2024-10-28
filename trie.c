@@ -45,12 +45,12 @@ void trie_insert(trie *trie, char *key) {
 void elem_insert(trie *trie, trie_node_elem *elem, char *key, unsigned int layer) {
     switch (elem->type) {
         case UNDEF:
-            elem->value.bucket = bucket_create(trie->bucket_init);
+            bucket_init(&elem->value.bucket, trie->bucket_init);
             elem->type = BUCKET;
         case BUCKET:
-            bucket *b = elem->value.bucket;
+            bucket *b = &elem->value.bucket;
             if (bucket_full(b)) {
-                if (key[layer] != '\0' || bucket_items(b) < trie->bucket_max) {
+                if (key[layer] == '\0' || bucket_items(b) < trie->bucket_max) {
                     bucket_grow(b, trie->bucket_growth_factor);
                     bucket_insert(b, key);
                     return;
